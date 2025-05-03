@@ -4,6 +4,4 @@
 Algorithm
 
 Decision Tree
-Random Forest
-Support Vector Machine
-Logistic and Linear Regression
+K-MEANS
