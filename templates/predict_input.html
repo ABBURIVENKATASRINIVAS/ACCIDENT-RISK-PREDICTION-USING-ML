@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Accident Severity Prediction</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f0f4f8, #d9e2ec);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            background: #ffffff;
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 500px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #2a2a2a;
+            margin-bottom: 30px;
+            font-size: 28px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #333;
+        }
+
+        input[type="text"],
+        select {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 15px;
+            background-color: #f9f9f9;
+            transition: border 0.3s ease;
+        }
+
+        input[type="text"]:focus,
+        select:focus {
+            border-color: #007bff;
+            outline: none;
+            background-color: #fff;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        button:hover {
+            background: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    
+    <div class="container">
+        <h1>Accident Severity Prediction</h1>
+        <form action="{{ url_for('predict_custom') }}" method="POST">
+            <label for="location">Location:</label>
+            <input type="text" id="location" name="location" required>
+
+            <label for="weather">Weather Conditions:</label>
+            <select id="weather" name="weather" required>
+                <option value="1">1 - Other</option>
+                <option value="2">2 - Raining</option>
+                <option value="3">3 - Snowing</option>
+                <option value="4">4 - Fog</option>
+                <option value="5">5 - High Winds</option>
+                <option value="6">6 - Blowing Snow</option>
+                <option value="7">7 - Severe Storm</option>
+                <option value="8">8 - Hail</option>
+                <option value="9">9 - Clear</option>
+            </select>
+
+            <label for="road">Road Surface Conditions:</label>
+            <select id="road" name="road" required>
+                <option value="-1">-1 - Unknown</option>
+                <option value="1">1 - Mud</option>
+                <option value="2">2 - Gravel</option>
+                <option value="3">3 - Concrete</option>
+                <option value="4">4 - Wet Asphalt</option>
+                <option value="5">5 - Dry Asphalt</option>
+            </select>
+
+            <label for="light">Light Conditions:</label>
+            <select id="light" name="light" required>
+                <option value="1">1 - Other</option>
+                <option value="4">4 - Darkness (No Street Lights)</option>
+                <option value="5">5 - Darkness (Lights Off)</option>
+                <option value="6">6 - Darkness (Lights On)</option>
+                <option value="7">7 - Daylight</option>
+            </select>
+
+            <button type="submit">Predict</button>
+        </form>
+    </div>
+</body>
+</html>

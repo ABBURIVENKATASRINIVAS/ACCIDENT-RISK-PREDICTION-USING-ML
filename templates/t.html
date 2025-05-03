@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0" />
+  <title>Accident Severity Prediction</title>
+
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="./static/css/materialize.css" rel="stylesheet" media="screen,projection" />
+  <link href="./static/css2/style.css" rel="stylesheet" media="screen,projection" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/css/materialize.min.css">
+</head>
+
+<body>
+
+  <!-- Navigation -->
+  <div class="navbar-fixed">
+    <nav class="blue">
+      <div class="nav-wrapper">
+        <a href="/" class="brand-logo">Accident Severity Prediction</a>
+        <ul class="right hide-on-med-and-down">
+          <li><a href="/Map">Maps</a></li>
+          <li><a href="/Graphs">Graphs</a></li>
+          <li><a href="/Pie">Pie Charts</a></li>
+          <li><a href="/wf">Weather Forecast</a></li>
+        </ul>
+      </div>
+    </nav>
+  </div>
+
+  <!-- Banner -->
+  <div class="section no-pad-bot" id="index-banner">
+    <div class="container">
+      <h1 class="header center orange-text">Accident Severity Prediction</h1>
+      <div class="row center">
+        <h5 class="header col s12 light">Enter your details to predict severity of your accident</h5>
+      </div>
+
+      <!-- Prediction Form -->
+      <div class="row">
+        <form action='/predict' method="post" class="col s12">
+      
+          <div class="row">
+            <!-- Sex of the Driver: 0 for Female, 1 for Male -->
+            <div class="input-field col s4">
+              <label for="sex" class="active"><b>Sex Of the Driver</b></label>
+              <input placeholder="0 for Female and 1 for Male" required name="Temperature" id="sex" type="number" class="validate" min="0" max="1">
+            </div>
+      
+            <!-- Vehicle Type: n-seater vehicle -->
+            <div class="input-field col s4">
+              <label for="vehicle" class="active"><b>Vehicle Type</b></label>
+              <input placeholder="n for n-seater vehicle" required name="Oxygen" id="vehicle" type="number" class="validate" min="1">
+            </div>
+      
+            <!-- Speed Limit: in kmph -->
+            <div class="input-field col s4">
+              <label for="speed" class="active"><b>Speed Limit</b></label>
+              <input placeholder="Speed limit on the road in kmph" required name="Humidity" id="speed" type="number" class="validate" min="0" max="200">
+            </div>
+          </div>
+      
+          <div class="row">
+            <!-- Road Type: scale from 0 to 10 -->
+            <div class="input-field col s4">
+              <label for="road" class="active"><b>Road Type</b></label>
+              <input placeholder="On a scale from 0 to 10" required name="Road" id="road" type="number" class="validate" min="0" max="10">
+            </div>
+      
+            <!-- Number of Passengers -->
+            <div class="input-field col s4">
+              <label for="passengers" class="active"><b>Number of Passengers</b></label>
+              <input placeholder="Number of Passengers seated in car" required name="Passengers" id="passengers" type="number" class="validate" min="1">
+            </div>
+      
+            <!-- Day: 0 (Sunday) to 6 (Saturday) -->
+            <div class="input-field col s4">
+              <label for="day" class="active"><b>Day</b></label>
+              <input placeholder="Day starting with 0 for Sunday" required name="Day" id="day" type="number" class="validate" min="0" max="6">
+            </div>
+          </div>
+      
+          <div class="row">
+            <!-- Light Conditions -->
+            <div class="input-field col s4">
+              <label for="light" class="active"><b>Light Conditions</b></label>
+              <input placeholder="Enter 0 for Daytime and 1 for Night" required name="Light" id="light" type="number" class="validate" min="0" max="1">
+            </div>
+          </div>
+      
+          <div class="row center">
+            <button type="submit" class="btn-large waves-effect waves-light orange">Predict Probability</button>
+          </div>
+        </form>
+      </div>
+      
+
+         
+
+
+      <!-- Prediction Output -->
+      <div class="row center">
+        {{pred}}
+      </div>
+
+     
+
+      <!-- Prediction Result -->
+      <div id="predictionResult" class="row center" style="margin-top: 20px;">
+        <!-- Result will be displayed here -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="page-footer orange">
+    <div class="container">
+      <div class="row">
+        <div class="col l6 s12">
+          <h5 class="white-text">About</h5>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+  <script src=".js/materialize.js"></script>
+  <script src="js/init.js"></script>
+  <script>
+    $(document).ready(function () {
+      $('select').not('.disabled').formSelect();
+    });
+
+    function fetchAccidentPrediction() {
+      fetch('/predict_accident', {
+        method: 'POST'
+      })
+        .then(response => response.json())
+        .then(data => {
+          const resultDiv = document.getElementById("predictionResult");
+          resultDiv.innerHTML = `
+            <h5>Predicted Accident Severity: ${data.predicted_severity}</h5>
+            <p>Location: Latitude: ${data.latitude}, Longitude: ${data.longitude}</p>
+            <p>Severity Probabilities:</p>
+            <ul>
+              <li>Low: ${data.probabilities.Low}</li>
+              <li>Medium: ${data.probabilities.Medium}</li>
+              <li>High: ${data.probabilities.High}</li>
+            </ul>
+          `;
+        })
+        .catch(error => console.error('Error:', error));
+    }
+  </script>
+
+</body>
+
+</html>

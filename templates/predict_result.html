@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Prediction Result</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(to right, #eef2f3, #8e9eab);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .result-container {
+            background-color: white;
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+            max-width: 600px;
+            width: 90%;
+            text-align: center;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .severity {
+            font-size: 22px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #007bff;
+        }
+
+        .tips {
+            background: #f7f9fa;
+            border-left: 4px solid #007bff;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: left;
+            margin-bottom: 20px;
+        }
+
+        .tips h3 {
+            margin-top: 0;
+            color: #333;
+        }
+
+        a {
+            display: inline-block;
+            text-decoration: none;
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            transition: background-color 0.3s ease;
+        }
+
+        a:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="result-container">
+        <h1>Prediction Result</h1>
+        <div class="severity">{{ pred }}</div>
+
+        {% if 'Severe' in pred or 'Major' in pred %}
+<div class="tips">
+    <h3>Driver Safety Tips for Severe Conditions:</h3>
+    <ul>
+        <li>Avoid unnecessary travel during severe weather or hazardous conditions.</li>
+        <li>Drive slowly and keep a safe distance from other vehicles.</li>
+        <li>Make sure headlights, brakes, and tires are functioning well.</li>
+        <li>Keep emergency contact numbers and a first-aid kit in the vehicle.</li>
+    </ul>
+</div>
+{% elif 'Moderate' in pred %}
+<div class="tips">
+    <h3>Tips for Moderate Risk Driving:</h3>
+    <ul>
+        <li>Be alert and cautious in intersections and during turns.</li>
+        <li>Watch for sudden weather changes.</li>
+        <li>Avoid using mobile phones while driving.</li>
+        <li>Ensure vehicle maintenance is up to date.</li>
+    </ul>
+</div>
+{% elif 'Low' in pred or 'Minor' in pred %}
+<div class="tips">
+    <h3>Tips for Low Risk / Normal Driving:</h3>
+    <ul>
+        <li>Follow traffic rules and speed limits.</li>
+        <li>Wear seatbelts at all times.</li>
+        <li>Do not drive under the influence of alcohol or drugs.</li>
+        <li>Stay focused and avoid distractions.</li>
+    </ul>
+</div>
+{% endif %}
+
+
+        <a href="{{ url_for('predict_custom') }}">Go Back</a>
+    </div>
+</body>
+</html>

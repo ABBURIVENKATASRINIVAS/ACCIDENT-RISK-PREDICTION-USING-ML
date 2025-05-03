@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accident Severity Prediction</title>
+</head>
+<body>
+    <h2>Enter Start and End Locations</h2>
+    <form action="/generate_map" method="post">
+        <label for="start">Start Location:</label>
+        <input type="text" id="start" name="start" required>
+        <br><br>
+        <label for="end">End Location:</label>
+        <input type="text" id="end" name="end" required>
+        <br><br>
+        <button type="submit">Generate Map</button>
+    </form>
+</body>
+</html>
